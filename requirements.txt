@@ -1,0 +1,13 @@
+# To get all the needed modules to make this work:
+# pip install -r ./requirements.txt 
+#
+# I strongly recomment using a virtual python environment to keep from polluting
+# your main environment: https://docs.python.org/3/library/venv.html
+#
+# Once you've created the virtual environment, you'll probably need to
+# upgrade pip:
+#    'pip install --upgrade pip'
+#
+# list of required modules to be installed:
+
+requests  # for web requests, rest and other api
