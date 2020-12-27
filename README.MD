@@ -9,6 +9,7 @@ Also, I really suggest using a virtual environment to keep your Python environme
 ## Usage
 General usage is `python3 dhsWI.py <parameters...>`  Parameters:  
 +  `--outfile FileName` sends all output to the specified file
++  `--days NumberOfDays` is how many days back from today to gather data.  Default is 14
 +  `--county CountyName` gives numbers for that county
 +  `--muni Municipality` gives numbers of a specific municipality.  Note that this form is a bit funky; for the city of Green Bay, you need to use `--muni "Green Bay city`.  Essentially, the name of the municipality and the type.  Types can be things like city, town, village.  Some experimentation may be needed to get it right.  
 #### Example for the whole state
@@ -39,7 +40,21 @@ Just use it with no parameters:
  11/26/2020     5095    13748      37.1%       62       201
 14-day positivity rate:  33.1% (51083 positive of 154465 tests)
 ```
-
+With fewer days:
+```
+(venv) hackintux:dhs matty$ python dhsWI.py --days 5
+Getting data from 12/23/2020 to now
+Query for entire state
+    DATE       NEW      TESTS   POS RATE   DEATHS  HOSPITAL
+ ----------  -------   ------   --------   ------  --------
+ 12/26/2020      632     5893      10.7%        4        31
+ 12/25/2020     1506     8615      17.5%        5        56
+ 12/24/2020     2799    10518      26.6%       60       128
+ 12/23/2020     2579     8856      29.1%       69       164
+```
+Two notes of interest here:
++  If it is before 2:00 pm central time, you will actually have one less day of data.  New data comes out at 2
++  If you specify a number of days and get less than 14 days returned, the 14-day positivity rate won't be displayed.  Duh.
 #### Exmaple for a county
 ```
 (venv) hackintux:dhs matty$ python dhsWI.py --count Manitowoc
@@ -97,8 +112,6 @@ Query for municipality "Oak Creek city"
  11/26/2020       38      139      27.3%        0         2
 14-day positivity rate:  35.7% (405 positive of 1134 tests)
 ```  
-## To do
-The date is hardcoded in the query string.  Gotta fix that.
 ## Final words
 First off, Coronovirus and Covid-19 is real.  **Wear a damn mask**.  
 
