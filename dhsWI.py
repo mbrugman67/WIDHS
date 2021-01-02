@@ -27,7 +27,6 @@ class dhs(object):
     # __init__() method called when an instance of the class is created
     def __init__(self, history):
         utils.dbgPrint(utils.LOG_INFO, 'instantiating')
-        self.req = None
         self._response = None
 
         self._month = history.tm_mon
@@ -69,11 +68,17 @@ class dhs(object):
 
             # display municipality name for results
             utils.outline('Query for municipality "{}"'.format(city))
-        
-        utils.dbgPrint(utils.LOG_INFO, 'query string: {}'.format(query))
-        self._response = requests.get(query)
 
-        utils.dbgPrint(utils.LOG_INFO, 'raw output: {}'.format(self._response.text))
+        try:
+            utils.dbgPrint(utils.LOG_INFO, 'query string: {}'.format(query))
+            self._response = requests.get(query)
+            utils.dbgPrint(utils.LOG_INFO, 'raw output: {}'.format(self._response.text))
+        
+        except ConnectionError:
+            utils.dbgPrint(utils.LOG_ERR, 'Could not connect to DHS')
+        
+        except Exception as err:
+            utils.dbgPrint(utils.LOG_ERR, 'Could not connect to DHS - {}'.format(err))
 
         # check for bad response; server busy, bad county name, etc
         if self._response == None:
