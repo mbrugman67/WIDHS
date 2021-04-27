@@ -130,6 +130,8 @@ class dhs(object):
             data = sorted(data, key=lambda k: k['attributes'].get('DATE', 0), reverse=True)
 
             count14 = 0
+            count7 = 0
+            ave7day = 0
             positive = 0
             total = 0
 
@@ -169,6 +171,13 @@ class dhs(object):
                     else:
                         percentage = '   0.0'
 
+                    # accumulate the 7 day positive average.  A usesless fucking number
+                    # without the context of positivity percentage rate, but some people
+                    # seem to think it's important.  Fucking idiots.
+                    if count7 < 7:
+                        ave7day += newPositive
+                        count7 += 1
+
                     # accumulate the most recent 14 days worth of postives and total tests
                     # to cipher out the 14-day positivity rate
                     if count14 < 14:
@@ -188,6 +197,9 @@ class dhs(object):
             if count14 == 14:
                 utils.outline('14-day positivity rate: {:> .1f}% ({} positive of {} tests)'.format(
                     ((positive / total) * 100), positive, total))
+
+            if count7 == 7:
+                utils.outline('7-day average postives: {:> .0f} (This is a stupid-ass statistic)'.format(ave7day / 7))
 
 ########################################################################
 ###                              MAIN                                ###
