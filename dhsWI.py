@@ -162,12 +162,31 @@ class dhs(object):
                     newPositive = item['attributes']['POS_NEW']
                     newDeaths = item['attributes']['DTH_NEW']
 
+                    if thisDate == None:
+                        print ('error - thisDate is missing from the data')
+                        continue
+                
+                    if newTests == None:
+                        print (' {}    error - newTests is missing from the data'.format(thisDate))
+                        continue
+
+                    if newPositive == None:
+                        print (' {}    error - newPositive is missing from the data'.format(thisDate))
+                        continue
+                    
+                    if newDeaths == None:
+                        print (' {}    error - newDeaths is missing from the data'.format(thisDate))
+                        continue
+
                     newHosp = dailyHospChange[inx]
                     inx += 1
 
                     # avoid divide by zero errors
                     if not newTests == 0 and not newPositive == 0:
-                        percentage = '{:> 6.1f}'.format((newPositive / newTests) * 100.0)
+                        try:
+                            percentage = '{:> 6.1f}'.format((newPositive / newTests) * 100.0)
+                        except:
+                            percentage = '--err-'
                     else:
                         percentage = '   0.0'
 
